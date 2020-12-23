@@ -2,8 +2,8 @@ import time
 import pca9685
 import microbit as m
 from machine import I2C,Pin
-
-Duty_cycle_R = 0 #Assign initial value 0 to global variables
+#Assign initial value 0 to global variables
+Duty_cycle_R = 0 
 Duty_cycle_L = 0
 right_IR = 0
 left_IR = 0
@@ -24,13 +24,18 @@ def PWM_motor():
     #= 0 stall
     #< 0 reverse rotation
     print(Duty_cycle_R,Duty_cycle_L)
-    
+    #The duty function is called from the pca9685 library to realize the control of the PWM output on the specified pin on pca9685
+    #duty(index, value=None, invert=False)
+    #"index" specifies the pin number of pca9685
+    #The range of "value" is 0-4095, this means that the PWM duty cycle of pin output is 0-100%
+    #When "invert" is "True", the control effect on PWM duty cycle will be reversed to 100%-0%
     pca9685.duty(0,value=int(2047-2047/100*Duty_cycle_R),invert=False)
     pca9685.duty(1,value=int(2048+2047/100*Duty_cycle_R),invert=False)
     pca9685.duty(2,value=int(2048+2047/100*Duty_cycle_L),invert=False)
     pca9685.duty(3,value=int(2047-2047/100*Duty_cycle_L),invert=False)
 def PWM_control():
     global Duty_cycle_R,Duty_cycle_L
+    #The following code implements the line patrol of Q-car
     if right_IR>200 and left_IR>200:
         Duty_cycle_R = 80
         Duty_cycle_L = 80
@@ -46,13 +51,13 @@ def PWM_control():
     
     elif right_IR<=200 and left_IR<=200:
         Duty_cycle_R = -80
-        Duty_cycle_L = 0
+        Duty_cycle_L = -20
         PWM_motor()
-        time.sleep_ms(200)
-        Duty_cycle_R = 0
+        time.sleep_ms(300)
+        Duty_cycle_R = 20
         Duty_cycle_L = 80
         PWM_motor()
-        time.sleep_ms(200)
+        time.sleep_ms(300)
 
 while True:
     Line_patrol_IR()
