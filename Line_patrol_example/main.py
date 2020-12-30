@@ -3,8 +3,6 @@ import pca9685
 import microbit as m
 from machine import I2C,Pin
 #Assign initial value 0 to global variables
-Duty_cycle_R = 0 
-Duty_cycle_L = 0
 right_IR = 0
 left_IR = 0
 
@@ -17,50 +15,36 @@ def Line_patrol_IR():
     right_IR = m.pin1.read_analog() #Pin1 receives the analog value of the right infrared pair tube
     left_IR = m.pin2.read_analog() #Pin2 receives the analog value of the left infrared pair tube
     print("R:" + str(right_IR), "L:" + str(left_IR)) #Serial port output left and right infrared pair tube voltage analog value
-def PWM_motor():
-    global Duty_cycle_R,Duty_cycle_L #Declare global variables
-    #The PWM duty cycle of the left and right motors ranges from - 100 to 100
-    #> 0 forward rotation
-    #= 0 stall
-    #< 0 reverse rotation
-    print(Duty_cycle_R,Duty_cycle_L)
-    #The duty function is called from the pca9685 library to realize the control of the PWM output on the specified pin on pca9685
-    #duty(index, value=None, invert=False)
-    #"index" specifies the pin number of pca9685
-    #The range of "value" is 0-4095, this means that the PWM duty cycle of pin output is 0-100%
-    #When "invert" is "True", the control effect on PWM duty cycle will be reversed to 100%-0%
-    pca9685.duty(0,value=int(2047-2047/100*Duty_cycle_R),invert=False)
-    pca9685.duty(1,value=int(2048+2047/100*Duty_cycle_R),invert=False)
-    pca9685.duty(2,value=int(2048+2047/100*Duty_cycle_L),invert=False)
-    pca9685.duty(3,value=int(2047-2047/100*Duty_cycle_L),invert=False)
-def PWM_control():
-    global Duty_cycle_R,Duty_cycle_L
+def Motor_control(Right_motor_control,Left_motor_control):
+    R0=int(2047-2047*Right_motor_control)
+    R1=int(2048+2047*Right_motor_control)
+    L0=int(2048+2047*Left_motor_control)
+    L1=int(2047-2047*Left_motor_control) 
+    pca9685.duty(0,value=R0,invert=False)
+    pca9685.duty(1,value=R1,invert=False)
+    pca9685.duty(2,value=L0,invert=False)
+    pca9685.duty(3,value=L1,invert=False)
+def Line_patrol_control():
     #The following code implements the line patrol of Q-car
     if right_IR>200 and left_IR>200:
-        Duty_cycle_R = 80
-        Duty_cycle_L = 80
-        PWM_motor()
+        Motor_control(1,1)
+        m.display.show(m.Image.ARROW_N)
     elif right_IR>200 and left_IR<=200:
-        Duty_cycle_R = 80
-        Duty_cycle_L = 0
-        PWM_motor()
+        Motor_control(1,0)
+        m.display.show(m.Image.ARROW_NE)
     elif left_IR>200 and right_IR<=200:
-        Duty_cycle_R = 0
-        Duty_cycle_L = 80
-        PWM_motor()
-    
+        Motor_control(0,1)
+        m.display.show(m.Image.ARROW_NW)
     elif right_IR<=200 and left_IR<=200:
-        Duty_cycle_R = -80
-        Duty_cycle_L = -20
-        PWM_motor()
+        Motor_control(-1,0)
+        m.display.show(m.Image.ARROW_SE)
         time.sleep_ms(300)
-        Duty_cycle_R = 20
-        Duty_cycle_L = 80
-        PWM_motor()
+        Motor_control(1,1)
+        m.display.show(m.Image.ARROW_N)
         time.sleep_ms(300)
 
 while True:
     Line_patrol_IR()
-    PWM_control()
+    Line_patrol_control()
 
     
