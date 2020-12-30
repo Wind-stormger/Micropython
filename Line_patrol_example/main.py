@@ -16,14 +16,28 @@ def Line_patrol_IR():
     left_IR = m.pin2.read_analog() #Pin2 receives the analog value of the left infrared pair tube
     print("R:" + str(right_IR), "L:" + str(left_IR)) #Serial port output left and right infrared pair tube voltage analog value
 def Motor_control(Right_motor_control,Left_motor_control):
-    R0=int(2047-2047*Right_motor_control)
-    R1=int(2048+2047*Right_motor_control)
-    L0=int(2048+2047*Left_motor_control)
-    L1=int(2047-2047*Left_motor_control) 
-    pca9685.duty(0,value=R0,invert=False)
-    pca9685.duty(1,value=R1,invert=False)
-    pca9685.duty(2,value=L0,invert=False)
-    pca9685.duty(3,value=L1,invert=False)
+    if Right_motor_control == -1:
+        pca9685.duty(0,value=4095,invert=False)
+        pca9685.duty(1,value=0,invert=False)
+    elif Right_motor_control == 0:
+        pca9685.duty(0,value=0,invert=False)
+        pca9685.duty(1,value=0,invert=False)
+    elif Right_motor_control == 1:
+        pca9685.duty(0,value=0,invert=False)
+        pca9685.duty(1,value=4095,invert=False)
+    else:
+        print("The value range in[-1,0,1]")
+    if Left_motor_control == -1:
+        pca9685.duty(2,value=0,invert=False)
+        pca9685.duty(3,value=4095,invert=False)
+    elif Left_motor_control == 0:
+        pca9685.duty(2,value=0,invert=False)
+        pca9685.duty(3,value=0,invert=False)
+    elif Left_motor_control == 1:
+        pca9685.duty(2,value=4095,invert=False)
+        pca9685.duty(3,value=0,invert=False)
+    else:
+        print("The value range in[-1,0,1]")
 def Line_patrol_control():
     #The following code implements the line patrol of Q-car
     if right_IR>200 and left_IR>200:
