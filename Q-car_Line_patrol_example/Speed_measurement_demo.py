@@ -10,7 +10,6 @@ start_time=0
 i2c=I2C(sda=Pin(21),scl=Pin(22),freq=10000) #I2C initialization
 pca9685 = pca9685.PCA9685(i2c,address=0x40) #Reference to pca9685 object,I2C address of pca9685
 pca9685.freq(freq=50)
-
 def Motor_control(Right_motor_control,Left_motor_control):
     R0=int(2047-2047/100*Right_motor_control)
     R1=int(2048+2047/100*Right_motor_control)

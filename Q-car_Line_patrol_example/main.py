@@ -17,25 +17,25 @@ def Line_patrol_IR():
     print("R:" + str(right_IR), "L:" + str(left_IR)) #Serial port output left and right infrared pair tube voltage analog value
 def Motor_control(Right_motor_control,Left_motor_control):
     if Right_motor_control == -1:
-        pca9685.duty(0,value=4095,invert=False)
-        pca9685.duty(1,value=0,invert=False)
+        pca9685.duty(0,value=0,invert=False)
+        pca9685.duty(1,value=4095,invert=False)
     elif Right_motor_control == 0:
         pca9685.duty(0,value=0,invert=False)
         pca9685.duty(1,value=0,invert=False)
     elif Right_motor_control == 1:
-        pca9685.duty(0,value=0,invert=False)
-        pca9685.duty(1,value=4095,invert=False)
-    else:
+        pca9685.duty(0,value=4095,invert=False)
+        pca9685.duty(1,value=0,invert=False)
+    else: 
         print("The value range in[-1,0,1]")
     if Left_motor_control == -1:
-        pca9685.duty(2,value=0,invert=False)
-        pca9685.duty(3,value=4095,invert=False)
+        pca9685.duty(2,value=4095,invert=False)
+        pca9685.duty(3,value=0,invert=False)
     elif Left_motor_control == 0:
         pca9685.duty(2,value=0,invert=False)
         pca9685.duty(3,value=0,invert=False)
     elif Left_motor_control == 1:
-        pca9685.duty(2,value=4095,invert=False)
-        pca9685.duty(3,value=0,invert=False)
+        pca9685.duty(2,value=0,invert=False)
+        pca9685.duty(3,value=4095,invert=False)
     else:
         print("The value range in[-1,0,1]")
 def Line_patrol_control():
@@ -60,5 +60,3 @@ def Line_patrol_control():
 while True:
     Line_patrol_IR()
     Line_patrol_control()
-
-    
