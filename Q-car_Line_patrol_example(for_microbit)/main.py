@@ -23,9 +23,9 @@ def Ultrasonic_ranging():
     while(Echo.read_digital()==1):
         pass
     t2 = utime.ticks_us()
-    t3 = utime.ticks_diff(t2,t1)/10000
-    #print("\r"+":{:5.0f}cm ".format(t3*340/2),end='')
-    Distance=int(t3*340/2)
+    t3 = utime.ticks_diff(t2,t1)/1000000
+    #print("\r"+":{:5.2f}cm".format(t3*34300/2),end='')
+    Distance=int(t3*34300/2)
 def Line_patrol_control():
     #The following code implements the line patrol of Q-car
     if  Distance>10 and right_IR==1 and left_IR==1:
