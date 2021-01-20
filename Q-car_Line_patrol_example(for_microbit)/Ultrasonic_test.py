@@ -15,5 +15,6 @@ def Ultrasonic_ranging():
         t2 = t1/1000000
         print("\r"+":{:5.2f}cm".format(t2*34300/2),end='')
         Distance=int(t2*34300/2)
+        start_time=running_time()
 while True:
     Ultrasonic_ranging()
