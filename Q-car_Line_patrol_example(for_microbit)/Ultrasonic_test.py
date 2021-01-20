@@ -1,6 +1,7 @@
 #For the time being, this code only applies to microbit V1&V2
 from microbit import pin12,pin13,running_time
 from machine import time_pulse_us
+import utime
 def Ultrasonic_ranging():
     Trig, Echo = pin12,pin13
     global Distance
