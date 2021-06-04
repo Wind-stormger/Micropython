@@ -35,3 +35,8 @@ class Triodecar:
         else:
             print('Values range from 0 to 10')
 
+    def left_LDR(self):
+        return pin2.read_analog()
+    
+    def right_LDR(self):
+        return pin1.read_analog()
