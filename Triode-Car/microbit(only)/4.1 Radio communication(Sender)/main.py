@@ -17,4 +17,4 @@ while True:
     else:
         message = "stop"
     radio.send(message)
-
+    sleep(100)
