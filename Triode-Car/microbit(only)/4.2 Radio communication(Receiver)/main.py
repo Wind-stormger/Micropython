@@ -20,5 +20,6 @@ while True:
     elif incoming == "stop":
         triodecar.direction_stop()
     else:
+        #在没有接收到任何消息时radio.receive()返回None
         triodecar.direction_stop()
     sleep(100)
