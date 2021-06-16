@@ -10,11 +10,13 @@ while True:
         display.show(Image.ARROW_N, delay=0, wait=True, loop=False, clear=False)
         triodecar.direction_foward()
         sleep(100)
-    if button_a.is_pressed():
+    elif button_a.is_pressed():
         display.show(Image.ARROW_W, delay=0, wait=True, loop=False, clear=False)
         triodecar.direction_right()
-    if button_b.is_pressed():
+    elif button_b.is_pressed():
         display.show(Image.ARROW_E, delay=0, wait=True, loop=False, clear=False)
         triodecar.direction_left()
-
+    else:
+         triodecar.direction_stop()
+        
         
