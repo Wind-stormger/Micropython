@@ -27,13 +27,13 @@ class Triodecar:
         if value>=0 and value<=10:
             pin14.write_analog(int(1023-1023/10*value))
         else:
-            print('value range from 0 to 10')
+            print('Values range from 0 to 10')
 
     def right_motor_speed(self,value):
         if value>=0 and value<=10:
             pin15.write_analog(int(1023-1023/10*value))
         else:
-            print('value range from 0 to 10')
+            print('Values range from 0 to 10')
 
     def left_LDR(self):
         return pin2.read_analog()
