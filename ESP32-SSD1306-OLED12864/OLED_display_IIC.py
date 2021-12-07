@@ -2,7 +2,7 @@ from machine import SoftI2C,Pin
 from ssd1306 import SSD1306_I2C
 
 class OLED_Show:
-    def __init__(self, sda_pin=2, scl_pin=1):        
+    def __init__(self, sda_pin=15, scl_pin=16):        
         self.i2c = SoftI2C(sda=Pin(sda_pin), scl=Pin(scl_pin))
         self.oled = SSD1306_I2C(128, 64, self.i2c, addr=0x3c)
         self.init_display()
