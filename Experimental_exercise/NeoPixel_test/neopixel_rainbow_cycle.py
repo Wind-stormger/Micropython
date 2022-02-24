@@ -2,10 +2,6 @@ from machine import Pin
 from neopixel import NeoPixel
 import time
 
-from machine import Pin
-from neopixel import NeoPixel
-import time
-
 pin_18 = Pin(18, Pin.OUT)#将GPIO18作为WS2812的信号传输线
 #pin_48 = Pin(48, Pin.OUT)
 np = NeoPixel(pin_18, 25,bpp=3, timing=1)
